@@ -6,7 +6,9 @@ BOOL CALLBACK EnumWindowsProc(HWND hWnd, long lParam) {
 
     if (IsWindowVisible(hWnd)) {
         GetWindowText(hWnd, (LPSTR) buff, 254);
-        printf("%s\n", buff);
+        if(buff[0] != '\0') {
+            printf("%s\n", buff);
+        }
     }
     return TRUE;
 }
@@ -51,7 +53,7 @@ void send_key(char vk_id) {
 
 
 void send_mouse(char vk_id) {
-    
+
 }
 
 void stream_keys(int stream_size, char* key_stream) {
@@ -70,7 +72,7 @@ void send_custom_input() {
 int refersh(LPCTSTR window_name) {
 
     if(window_exists(window_name) == 0) {
-        printf("Window does not exist... listing all open windows... \n");
+        printf("Window does not exist... listing all open windows... \n\n");
         list_all_windows();
         return -1;
     }
@@ -89,10 +91,16 @@ int refersh(LPCTSTR window_name) {
 }
 
 
-int main() {
+int main(int argc, char* argv[]) {
 
     LPCTSTR lost_ark_name = "LOST ARK (64-bit, DX11) v.2.0.2.1";
+
+    if(argc == 2) {
+        lost_ark_name = argv[1];
+    }
+
     int temp = refersh(lost_ark_name);
+    if(temp != 0) return -1;
 
     return 0;
 }
